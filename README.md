@@ -22,3 +22,7 @@ POST /users/login - login a user
 - Express
 - Morgan
 - Body-Parser
+
+## Related
+
+- [Cocktail Finder Frontend](https://github.com/lina98st/cocktail-finder)
