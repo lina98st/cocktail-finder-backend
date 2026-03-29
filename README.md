@@ -16,3 +16,9 @@ PUT /cocktails/:id - update a cocktail
 DELETE /cocktails/:id - delete a cocktail
 POST /users - register a new user
 POST /users/login - login a user
+
+## Dependencies
+
+- Express
+- Morgan
+- Body-Parser
