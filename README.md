@@ -7,6 +7,8 @@ REST API for the CocktailFinder app built with Node.js and Express.
 npm install
 npm start
 
+Uses nodemon for automatic server restarts during development.
+
 ## Endpoints
 
 GET /cocktails - get all cocktails
