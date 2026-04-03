@@ -1,6 +1,6 @@
 # Cocktail Finder Backend
 
-REST API for the CocktailFinder app built with Node.js and Express.
+REST API for the CocktailFinder app built with Node.js, Express, and MongoDB.
 
 ## Setup
 
@@ -24,6 +24,8 @@ POST /users/login - login a user
 - Express
 - Morgan
 - Body-Parser
+- Mongoose
+- Nodemon
 
 ## Related
 
