@@ -6,6 +6,15 @@ const userRouter = require('./routes/userRouter');
 const hostname = 'localhost';
 const port = 3000;
 
+const mongoose = require('mongoose');
+
+const url = 'mongodb://127.0.0.1:27017/cocktailfinder';
+const connect = mongoose.connect(url, {});
+
+connect.then(() => console.log('Connected correctly to server'),
+err => console.log(err)
+);
+
 const app = express();
 app.use(morgan('dev'));
 app.use(express.json());
