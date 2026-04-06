@@ -19,12 +19,17 @@ DELETE /cocktails/:id - delete a cocktail
 POST /users - register a new user
 POST /users/login - login a user
 
+## Authentication
+
+User authentication is implemented with Passport.js and JWT (JSON Web Token).
+
 ## Dependencies
 
 - Express
 - Morgan
 - Body-Parser
 - Mongoose
+- Passport
 - Nodemon
 
 ## Related
