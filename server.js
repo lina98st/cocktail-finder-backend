@@ -2,6 +2,8 @@ const express = require('express');
 const morgan = require('morgan');
 const cocktailRouter = require('./routes/cocktailRouter');
 const userRouter = require('./routes/userRouter');
+const passport = require('passport');
+const authenticate = require('./authenticate');
 
 const hostname = 'localhost';
 const port = 3000;
@@ -18,6 +20,9 @@ err => console.log(err)
 const app = express();
 app.use(morgan('dev'));
 app.use(express.json());
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/cocktails', cocktailRouter);
 app.use('/users', userRouter);
