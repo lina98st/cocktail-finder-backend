@@ -1,5 +1,6 @@
 const express = require('express');
 const Cocktail = require('../models/cocktail');
+const authenticate = require('../authenticate');
 
 const cocktailRouter = express.Router();
 
@@ -13,7 +14,7 @@ Cocktail.find()
 })
 .catch(err => next(err));
 })
-.post((req, res, next) => {
+    .post(authenticate.verifyUser, (req, res, next) => {
 Cocktail.create(req.body)
 .then(cocktail => {
     console.log('Cocktail Created ', cocktail);
@@ -23,11 +24,11 @@ Cocktail.create(req.body)
 })
 .catch(err => next(err));
 })
-.put((req, res) => {
+.put(authenticate.verifyUser, (req, res, next) => {
 res.statusCode = 403;
 res.end('PUT operation not supported on /cocktails');
 })
-.delete((req, res, next) => {
+.delete(authenticate.verifyUser, (req, res, next) => {
 Cocktail.deleteMany()
 .then(response => {
     res.statusCode = 200;
@@ -47,11 +48,11 @@ Cocktail.findById(req.params.cocktailId)
 })
 .catch(err => next(err));
 })
-.post((req, res) => {
+    .post(authenticate.verifyUser, (req, res, next) => {
 res.statusCode = 403;
 res.end(`POST operation not supported on /cocktail/${req.params.cocktailId}`);
 })
-.put((req, res, next) => {
+.put(authenticate.verifyUser, (req, res, next) => {
 Cocktail.findByIdAndUpdate(req.params.cocktailId, {
     $set: req.body
 }, { new: true })
@@ -62,7 +63,7 @@ Cocktail.findByIdAndUpdate(req.params.cocktailId, {
 })
 .catch(err => next(err));
 })
-.delete((req, res, next) => {
+.delete(authenticate.verifyUser, (req, res, next) => {
 Cocktail.findByIdAndDelete(req.params.cocktailId)
 .then(response => {
     res.statusCode = 200;

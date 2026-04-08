@@ -4,13 +4,14 @@ const cocktailRouter = require('./routes/cocktailRouter');
 const userRouter = require('./routes/userRouter');
 const passport = require('passport');
 const authenticate = require('./authenticate');
+const config = require('./config');
 
 const hostname = 'localhost';
 const port = 3000;
 
 const mongoose = require('mongoose');
 
-const url = 'mongodb://127.0.0.1:27017/cocktailfinder';
+const url = config.mongoUrl;
 const connect = mongoose.connect(url, {});
 
 connect.then(() => console.log('Connected correctly to server'),
