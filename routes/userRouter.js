@@ -1,51 +1,55 @@
 const express = require('express');
-const userRouter = express.Router();
+const User = require('../models/user');
+const passport = require('passport');
 
-userRouter.route('/')
+const router = express.Router();
 
-.all((req, res, next) => {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/plain');
-    next();
-})
-.get((req, res) => {
-res.statusCode = 403;
-res.end('GET operation not supported on /users');
-})
-.post((req, res) => {
-res.end(`Will add the users: ${req.body.name} with description: ${req.body.description}`);
-})
-.put((req, res) => {
-res.statusCode = 403;
-res.end('PUT operation not supported on /users');
-})
-.delete((req, res) => {
-res.statusCode = 403;
-res.end('DELETE operation not supported on /users');
+/* GET users listing. */
+router.get('/', function(req, res) {
+    res.send('respond with a resource');
 });
 
-
-userRouter.route('/login')
-
-.all((req, res, next) => {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/plain');
-    next();
-})
-.get((req, res, next) => {
-res.statusCode = 403;
-res.end('GET operation not supported on /login');
-})
-.post((req, res, next) => {
-res.end(`Will login user and return a token`);
-})
-.put((req, res, next) => {
-res.statusCode = 403;
-res.end('PUT operation not supported on /users');
-})
-.delete((req, res, next) => {
-res.statusCode = 403;
-res.end('DELETE operation not supported on /users');
+router.post('/signup', (req, res) => {
+    User.register(
+        new User({username: req.body.username}),
+        req.body.password,
+        err => {
+            if (err) {
+                res.statusCode = 500;
+                res.setHeader('Content-Type', 'application/json');
+                res.json({err: err});
+            } else {
+                passport.authenticate('local')(req, res, () => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json({success: true, status: 'Registration Successful!'});
+                });
+            }
+        }
+    );
 });
 
-module.exports = userRouter;
+router.post('/login', passport.authenticate('local'), (req, res) => {
+res.statusCode = 200;
+res.setHeader('Content-Type', 'application/json');
+res.json({success: true, status: 'You are successfully logged in!'});
+});
+
+router.get('/logout', (req, res, next) => {  
+    if (req.session && req.session.user) {  // Check for a specific user property
+        req.session.destroy((err) => {
+            if (err) {
+                return next(err);
+            }
+            res.clearCookie('session-id');
+            res.redirect('/');
+        });
+    } else {  
+        const err = new Error('You are not logged in!');
+        err.status = 401;
+        return next(err);
+    }  
+});
+
+module.exports = router;
+        

@@ -22,7 +22,7 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.session());
 
 app.use('/cocktails', cocktailRouter);
 app.use('/users', userRouter);
