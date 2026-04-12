@@ -13,11 +13,11 @@ Uses nodemon for automatic server restarts during development.
 
 ### Cocktails
 
-GET /cocktails - get all cocktails
-GET /cocktails/:id - get a single cocktail
-POST /cocktails - add a new cocktail (requires authentication)
-PUT /cocktails/:id - update a cocktail (requires authentication)
-DELETE /cocktails/:id - delete a cocktail (requires authentication)
+GET /cocktails - get all cocktails (public)
+GET /cocktails/:id - get a single cocktail (public)
+POST /cocktails - add a new cocktail (requires admin)
+PUT /cocktails/:id - update a cocktail (requires admin)
+DELETE /cocktails/:id - delete a cocktail (requires admin)
 
 ### Users
 
@@ -28,6 +28,10 @@ GET /users/logout - logout
 ## Authentication
 
 Authentication is implemented with Passport.js using Local Strategy and JWT (JSON Web Token). After login, a token is returned which must be sent as a Bearer Token in the Authorization header for protected routes.
+
+Two permission levels exist:
+- **User**: can log in and access protected routes
+- **Admin**: required for creating, updating, and deleting cocktails
 
 ## Dependencies
 
