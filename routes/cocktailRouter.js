@@ -14,21 +14,21 @@ Cocktail.find()
 })
 .catch(err => next(err));
 })
-    .post(authenticate.verifyUser, (req, res, next) => {
+    .post(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
 Cocktail.create(req.body)
 .then(cocktail => {
     console.log('Cocktail Created ', cocktail);
-    res.statusCode = 200;
+    res.statusCode = 201;
     res.setHeader('Content-Type', 'application/json');
     res.json(cocktail);
 })
 .catch(err => next(err));
 })
-.put(authenticate.verifyUser, (req, res, next) => {
+.put(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
 res.statusCode = 403;
 res.end('PUT operation not supported on /cocktails');
 })
-.delete(authenticate.verifyUser, (req, res, next) => {
+.delete(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
 Cocktail.deleteMany()
 .then(response => {
     res.statusCode = 200;
@@ -48,11 +48,11 @@ Cocktail.findById(req.params.cocktailId)
 })
 .catch(err => next(err));
 })
-    .post(authenticate.verifyUser, (req, res, next) => {
+    .post(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
 res.statusCode = 403;
 res.end(`POST operation not supported on /cocktail/${req.params.cocktailId}`);
 })
-.put(authenticate.verifyUser, (req, res, next) => {
+.put(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
 Cocktail.findByIdAndUpdate(req.params.cocktailId, {
     $set: req.body
 }, { new: true })
@@ -63,7 +63,7 @@ Cocktail.findByIdAndUpdate(req.params.cocktailId, {
 })
 .catch(err => next(err));
 })
-.delete(authenticate.verifyUser, (req, res, next) => {
+.delete(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
 Cocktail.findByIdAndDelete(req.params.cocktailId)
 .then(response => {
     res.statusCode = 200;
