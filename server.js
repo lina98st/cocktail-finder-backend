@@ -6,9 +6,6 @@ const passport = require('passport');
 const authenticate = require('./authenticate');
 const config = require('./config');
 
-const hostname = 'localhost';
-const port = 3000;
-
 const mongoose = require('mongoose');
 
 const url = config.mongoUrl;
@@ -19,6 +16,16 @@ err => console.log(err)
 );
 
 const app = express();
+
+app.all('/{*path}', (req, res, next) => {
+  if (req.secure) {
+    return next();
+  } else {
+    console.log(`Redirecting to: https://${req.hostname}:${app.get('secPort')}${req.url}`);
+  res.redirect(301, `https://${req.hostname}:${app.get('secPort')}${req.url}`);
+  }
+})
+
 app.use(morgan('dev'));
 app.use(express.json());
 
@@ -37,6 +44,4 @@ app.use((req, res) => {
     res.end('<html><body><h1>This is an Express Server</h1></body></html>');
 });
 
-app.listen(port, hostname, () => {
-    console.log(`Server running at http://${hostname}:${port}/`);
-});
+module.exports = app;
