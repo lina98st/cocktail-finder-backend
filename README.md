@@ -9,6 +9,8 @@ npm start
 
 Uses nodemon for automatic server restarts during development.
 
+The server runs on HTTP (port 3000) and HTTPS (port 3443). All HTTP requests are automatically redirected to HTTPS.
+
 ## Endpoints
 
 ### Cocktails
@@ -32,6 +34,10 @@ Authentication is implemented with Passport.js using Local Strategy and JWT (JSO
 Two permission levels exist:
 - **User**: can log in and access protected routes
 - **Admin**: required for creating, updating, and deleting cocktails
+
+## HTTPS
+
+The server uses HTTPS with a self-signed certificate generated via OpenSSL. For local development, you may need to accept the browser security warning for localhost.
 
 ## Dependencies
 
