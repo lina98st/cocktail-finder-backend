@@ -27,10 +27,12 @@ GET /users - get all users (requires admin)
 POST /users/signup - register a new user
 POST /users/login - login and receive a JWT token
 GET /users/logout - logout
+GET /users/google - initiate Google OAuth login
+GET /users/google/callback - Google OAuth callback, returns JWT token
 
 ## Authentication
 
-Authentication is implemented with Passport.js using Local Strategy and JWT (JSON Web Token). After login, a token is returned which must be sent as a Bearer Token in the Authorization header for protected routes.
+Authentication is implemented with Passport.js using Local Strategy, JWT (JSON Web Token), and Google OAuth 2.0. After login, a token is returned which must be sent as a Bearer Token in the Authorization header for protected routes.
 
 Two permission levels exist:
 - **User**: can log in and access protected routes
@@ -53,6 +55,7 @@ CORS is enabled to allow cross-origin requests. The following origins are whitel
 - passport-local
 - passport-local-mongoose
 - passport-jwt
+- passport-google-oauth20
 - jsonwebtoken
 - cors
 - Nodemon
