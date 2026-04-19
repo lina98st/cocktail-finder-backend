@@ -1,11 +1,13 @@
 const express = require('express');
 const Cocktail = require('../models/cocktail');
 const authenticate = require('../authenticate');
+const cors = require('./cors');
 
 const cocktailRouter = express.Router();
 
 cocktailRouter.route('/')
-.get((req, res, next) => {
+.options(cors.corsWithOptions, (req, res) => res.sendStatus(200))
+.get(cors.cors, (req, res, next) => {
 Cocktail.find()
 .then(cocktails => {
     res.statusCode = 200;
@@ -14,7 +16,7 @@ Cocktail.find()
 })
 .catch(err => next(err));
 })
-    .post(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
+    .post(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
 Cocktail.create(req.body)
 .then(cocktail => {
     console.log('Cocktail Created ', cocktail);
@@ -24,11 +26,11 @@ Cocktail.create(req.body)
 })
 .catch(err => next(err));
 })
-.put(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
+.put(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
 res.statusCode = 403;
 res.end('PUT operation not supported on /cocktails');
 })
-.delete(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
+.delete(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
 Cocktail.deleteMany()
 .then(response => {
     res.statusCode = 200;
@@ -39,7 +41,8 @@ Cocktail.deleteMany()
 });
 
 cocktailRouter.route('/:cocktailId')
-.get((req, res, next) => {
+.options(cors.corsWithOptions, (req, res) => res.sendStatus(200))
+.get(cors.cors, (req, res, next) => {
 Cocktail.findById(req.params.cocktailId)
 .then(cocktail => {
     res.statusCode = 200;
@@ -48,11 +51,11 @@ Cocktail.findById(req.params.cocktailId)
 })
 .catch(err => next(err));
 })
-    .post(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
+    .post(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
 res.statusCode = 403;
 res.end(`POST operation not supported on /cocktail/${req.params.cocktailId}`);
 })
-.put(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
+.put(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
 Cocktail.findByIdAndUpdate(req.params.cocktailId, {
     $set: req.body
 }, { new: true })
@@ -63,7 +66,7 @@ Cocktail.findByIdAndUpdate(req.params.cocktailId, {
 })
 .catch(err => next(err));
 })
-.delete(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
+.delete(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
 Cocktail.findByIdAndDelete(req.params.cocktailId)
 .then(response => {
     res.statusCode = 200;
