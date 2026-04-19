@@ -23,6 +23,7 @@ DELETE /cocktails/:id - delete a cocktail (requires admin)
 
 ### Users
 
+GET /users - get all users (requires admin)
 POST /users/signup - register a new user
 POST /users/login - login and receive a JWT token
 GET /users/logout - logout
@@ -39,6 +40,10 @@ Two permission levels exist:
 
 The server uses HTTPS with a self-signed certificate generated via OpenSSL. For local development, you may need to accept the browser security warning for localhost.
 
+## CORS
+
+CORS is enabled to allow cross-origin requests. The following origins are whitelisted: http://localhost:3000, https://localhost:3443, and https://cocktailfinder-alina.netlify.app.
+
 ## Dependencies
 
 - Express
@@ -49,6 +54,7 @@ The server uses HTTPS with a self-signed certificate generated via OpenSSL. For 
 - passport-local-mongoose
 - passport-jwt
 - jsonwebtoken
+- cors
 - Nodemon
 
 ## Related
