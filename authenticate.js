@@ -4,6 +4,7 @@ const User = require('./models/user');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const config = require('./config.js');
 
@@ -53,5 +54,30 @@ exports.verifyAdmin = (req, res, next) => {
     }
 };
 
+
+exports.googlePassport = passport.use(
+    new GoogleStrategy(
+        {
+            clientID: config.google.clientId,
+            clientSecret: config.google.clientSecret,
+            callbackURL: 'https://localhost:3443/users/google/callback'
+        },
+        (accessToken, refreshToken, profile, done) => {
+            User.findOne({ googleId: profile.id })
+            .then((user) => {
+                if (user) {
+                    return done(null, user);
+                } else {
+                    let newUser = new User({ username: profile.displayName });
+                    newUser.googleId = profile.id;
+                    newUser.firstName = profile.name.givenName;
+                    newUser.lastName = profile.name.familyName;
+                    return newUser.save().then((user) => done(null, user));
+                }
+            })
+            .catch((err) => done(err, false));
+        }
+    )
+);
 
 exports.verifyUser = passport.authenticate('jwt', {session: false});

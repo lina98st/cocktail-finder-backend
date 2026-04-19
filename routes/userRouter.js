@@ -57,4 +57,13 @@ router.get('/logout', cors.corsWithOptions, (req, res) => {
     res.json({success: true, status: 'You are successfully logged out!'});
 });
 
+router.get('/google', cors.corsWithOptions, passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+router.get('/google/callback', cors.corsWithOptions, passport.authenticate('google', { session: false, failureRedirect: '/login' }), (req, res) => {
+    const token = authenticate.getToken({_id: req.user._id});
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.json({success: true, token: token, status: 'You are successfully logged in!'});
+});
+
 module.exports = router;
