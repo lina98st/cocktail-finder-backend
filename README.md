@@ -1,64 +1,75 @@
 # Cocktail Finder Backend
 
-REST API for the CocktailFinder app built with Node.js, Express, and MongoDB.
+RESTful API for the Cocktail Finder application, built with Node.js, Express, and MongoDB.
 
-## Setup
+## Getting Started
 
+```bash
 npm install
 npm start
+```
 
-Uses nodemon for automatic server restarts during development.
+The server runs on HTTP (port 3000) and HTTPS (port 3443). All HTTP traffic is automatically redirected to HTTPS. Nodemon is used for automatic server restarts during development.
 
-The server runs on HTTP (port 3000) and HTTPS (port 3443). All HTTP requests are automatically redirected to HTTPS.
-
-## Endpoints
+## API Endpoints
 
 ### Cocktails
 
-GET /cocktails - get all cocktails (public)
-GET /cocktails/:id - get a single cocktail (public)
-POST /cocktails - add a new cocktail (requires admin)
-PUT /cocktails/:id - update a cocktail (requires admin)
-DELETE /cocktails/:id - delete a cocktail (requires admin)
+| Method | Endpoint | Access |
+|--------|----------|--------|
+| GET | /cocktails | Public |
+| GET | /cocktails/:id | Public |
+| POST | /cocktails | Admin only |
+| PUT | /cocktails/:id | Admin only |
+| DELETE | /cocktails/:id | Admin only |
 
 ### Users
 
-GET /users - get all users (requires admin)
-POST /users/signup - register a new user
-POST /users/login - login and receive a JWT token
-GET /users/logout - logout
-GET /users/google - initiate Google OAuth login
-GET /users/google/callback - Google OAuth callback, returns JWT token
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /users | Admin only |
+| POST | /users/signup | Register a new user |
+| POST | /users/login | Login and receive a JWT token |
+| GET | /users/logout | Logout |
+| GET | /users/google | Initiate Google OAuth login |
+| GET | /users/google/callback | Google OAuth callback, returns JWT token |
 
 ## Authentication
 
-Authentication is implemented with Passport.js using Local Strategy, JWT (JSON Web Token), and Google OAuth 2.0. After login, a token is returned which must be sent as a Bearer Token in the Authorization header for protected routes.
+Authentication is handled via Passport.js with the following strategies:
 
-Two permission levels exist:
-- **User**: can log in and access protected routes
-- **Admin**: required for creating, updating, and deleting cocktails
+- **Local Strategy** for username and password login
+- **JWT** for protecting routes after login
+- **Google OAuth 2.0** for third-party authentication
 
-## HTTPS
+After a successful login, a Bearer Token is returned and must be included in the `Authorization` header for all protected routes.
 
-The server uses HTTPS with a self-signed certificate generated via OpenSSL. For local development, you may need to accept the browser security warning for localhost.
+Two permission levels are supported:
 
-## CORS
+- **User** — can log in and access protected routes
+- **Admin** — required for creating, updating, and deleting cocktails
 
-CORS is enabled to allow cross-origin requests. The following origins are whitelisted: http://localhost:3000, https://localhost:3443, and https://cocktailfinder-alina.netlify.app.
+## Security
+
+- HTTPS is enabled using a self-signed certificate generated via OpenSSL. When running locally, you may need to accept the browser security warning for localhost.
+- CORS is configured to allow requests from the following origins:
+  - `http://localhost:3000`
+  - `https://localhost:3443`
+  - `https://cocktailfinder-alina.netlify.app`
 
 ## Dependencies
 
-- Express
-- Morgan
-- Mongoose
-- Passport
+- express
+- morgan
+- mongoose
+- passport
 - passport-local
 - passport-local-mongoose
 - passport-jwt
 - passport-google-oauth20
 - jsonwebtoken
 - cors
-- Nodemon
+- nodemon
 
 ## Related
 
