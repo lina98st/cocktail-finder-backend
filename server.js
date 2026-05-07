@@ -5,6 +5,7 @@ const userRouter = require('./routes/userRouter');
 const passport = require('passport');
 const authenticate = require('./authenticate');
 const config = require('./config');
+const favoriteRouter = require('./routes/favoriteRouter');
 
 const mongoose = require('mongoose');
 
@@ -34,6 +35,7 @@ app.use(passport.initialize());
 
 app.use('/cocktails', cocktailRouter);
 app.use('/users', userRouter);
+app.use('/favorites', favoriteRouter);
 
 app.use(express.static(__dirname + '/public'));
 
