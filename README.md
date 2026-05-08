@@ -34,6 +34,20 @@ The server runs on HTTP (port 3000) and HTTPS (port 3443). All HTTP traffic is a
 | GET | /users/google | Initiate Google OAuth login |
 | GET | /users/google/callback | Google OAuth callback, returns JWT token |
 
+### Favorites
+
+Each user has one favorites list containing multiple cocktails.
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /favorites | Get the current user's favorites list |
+| POST | /favorites | Add one or more cocktails to favorites |
+| DELETE | /favorites | Delete the entire favorites list |
+| POST | /favorites/:cocktailId | Add a single cocktail by ID |
+| DELETE | /favorites/:cocktailId | Remove a single cocktail by ID |
+
+All favorites endpoints require authentication (Bearer Token).
+
 ## Authentication
 
 Authentication is handled via Passport.js with the following strategies:
@@ -46,7 +60,7 @@ After a successful login, a Bearer Token is returned and must be included in the
 
 Two permission levels are supported:
 
-- **User** — can log in and access protected routes
+- **User** — can log in, access protected routes, and manage their favorites
 - **Admin** — required for creating, updating, and deleting cocktails
 
 ## Security
