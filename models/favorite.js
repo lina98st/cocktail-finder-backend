@@ -7,8 +7,7 @@ const favoriteSchema = new Schema({
         ref: 'User'
     },
     cocktails: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Cocktail'
+        type: String
     }],
 }, {
     timestamps: true

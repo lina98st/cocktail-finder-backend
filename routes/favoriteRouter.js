@@ -9,8 +9,6 @@ favoriteRouter.route('/')
 .options(cors.corsWithOptions, (req, res) => res.sendStatus(200))
 .get(cors.cors, authenticate.verifyUser, (req, res, next) => {
 Favorite.findOne({ user: req.user._id })
-    .populate('cocktails')
-        .populate('user')
 .then(favorites => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
@@ -23,9 +21,8 @@ Favorite.findOne({ user: req.user._id })
 .then(favorites => {
 if (favorites) { 
 req.body.forEach(cocktail => {
-    if (!favorites.cocktails.includes(cocktail._id)) {
-        favorites.cocktails.push(cocktail._id);
-        
+    if (!favorites.cocktails.includes(cocktail.idDrink)) {
+        favorites.cocktails.push(cocktail.idDrink);
     }
 });
 favorites.save()
@@ -37,7 +34,7 @@ favorites.save()
 .catch(err => next(err));
 } else { 
     const favorite = new Favorite({ user: req.user._id, cocktails: [] });
-    req.body.forEach(cocktail => favorite.cocktails.push(cocktail._id));
+req.body.forEach(cocktail => favorite.cocktails.push(cocktail.idDrink));
     favorite.save()
     .then(favorite => {
     res.statusCode = 200;
