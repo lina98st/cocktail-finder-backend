@@ -17,6 +17,7 @@ router.get('/', cors.corsWithOptions, authenticate.verifyUser, authenticate.veri
 .catch(err => next(err));
 });
 
+router.options('/signup', cors.corsWithOptions, (req, res) => res.sendStatus(200));
 router.post('/signup', cors.corsWithOptions, (req, res) => {
     const user = new User({ username: req.body.username });
 
@@ -44,6 +45,7 @@ router.post('/signup', cors.corsWithOptions, (req, res) => {
         });
 });
 
+router.options('/login', cors.corsWithOptions, (req, res) => res.sendStatus(200));
 router.post('/login', cors.corsWithOptions, passport.authenticate('local', { session: false }), (req, res) => {
     const token = authenticate.getToken({_id: req.user._id});
     res.statusCode = 200;
