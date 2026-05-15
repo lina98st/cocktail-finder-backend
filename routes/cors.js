@@ -1,6 +1,6 @@
 const cors = require('cors');
 
-const whitelist = ['http://localhost:3000', 'https://localhost:3443', 'https://cocktailfinder-alina.netlify.app'];
+const whitelist = ['http://localhost:3000', 'https://localhost:3443', 'https://cocktailfinder-alina.netlify.app', 'https://cocktail-finder-backend.onrender.com'];
 const corsOptionsDelegate = (req, callback) => {
 let corsOptions;
 console.log(req.header('Origin'));
