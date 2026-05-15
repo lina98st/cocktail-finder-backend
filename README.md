@@ -2,6 +2,10 @@
 
 RESTful API for the Cocktail Finder application, built with Node.js, Express, and MongoDB.
 
+## Live API
+
+https://cocktail-finder-backend.onrender.com
+
 ## Getting Started
 
 ```bash
@@ -9,7 +13,7 @@ npm install
 npm start
 ```
 
-The server runs on HTTP (port 3000) and HTTPS (port 3443). All HTTP traffic is automatically redirected to HTTPS. Nodemon is used for automatic server restarts during development.
+The server runs on HTTP (port 3001) and HTTPS (port 3444) in development. In production, only HTTP is used as HTTPS is handled by Render. Nodemon is used for automatic server restarts during development.
 
 ## API Endpoints
 
@@ -65,11 +69,12 @@ Two permission levels are supported:
 
 ## Security
 
-- HTTPS is enabled using a self-signed certificate generated via OpenSSL. When running locally, you may need to accept the browser security warning for localhost.
+- HTTPS is enabled locally using a self-signed certificate generated via OpenSSL. In production, HTTPS is handled by Render.
 - CORS is configured to allow requests from the following origins:
   - `http://localhost:3000`
-  - `https://localhost:3443`
+  - `https://localhost:3444`
   - `https://cocktailfinder-alina.netlify.app`
+  - `https://cocktail-finder-backend.onrender.com`
 
 ## Dependencies
 
